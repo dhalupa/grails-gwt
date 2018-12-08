@@ -17,3 +17,5 @@ plugin.xml
 .settings
 
 target-eclipse
+/out/
+/build/
