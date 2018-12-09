@@ -27,7 +27,7 @@ requests.
 
     def observe = ["services"]
     def watchedResources = "file:./grails-app/actionHandlers/**/*ActionHandler.groovy"
-    def artefacts = [ActionHandlerArtefactHandler]
+
 
     // URL to the plugin's documentation
     def documentation = "http://grails.org/plugin/grails-gwt"
