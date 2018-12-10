@@ -55,7 +55,7 @@ requests.
     }
 
     void doWithDynamicMethods() {
-        def interfaceGenerator = ctx.getBean("gwtInterfaceGenerator")
+        def interfaceGenerator = grailsApplication.mainContext.getBean("gwtInterfaceGenerator")
 
         grailsApplication.serviceClasses.each { serviceWrapper ->
             if (interfaceGenerator.isGwtExposed(serviceWrapper.clazz)) {
