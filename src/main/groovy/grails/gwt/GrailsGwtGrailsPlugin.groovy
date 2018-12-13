@@ -26,7 +26,6 @@ requests.
     def profiles = ['web']
 
     def observe = ["services"]
-    def watchedResources = "file:./grails-app/actionHandlers/**/*ActionHandler.groovy"
 
 
     // URL to the plugin's documentation
