@@ -20,7 +20,7 @@ import java.lang.reflect.Modifier
  * To change this template use File | Settings | File Templates.
  */
 class DefaultGwtServiceInterfaceGenerator implements GwtServiceInterfaceGenerator {
-    String srcPath = "src/java";
+    String srcPath = "src/main/java";
 
     boolean isGwtExposed(Class serviceClass) {
         return getPackage(serviceClass) != null

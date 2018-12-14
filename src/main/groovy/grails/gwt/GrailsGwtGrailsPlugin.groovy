@@ -1,5 +1,6 @@
 package grails.gwt
 
+import grails.core.ArtefactHandler
 import grails.plugins.*
 import org.codehaus.groovy.grails.plugins.gwt.ActionHandlerArtefactHandler
 import org.codehaus.groovy.grails.plugins.gwt.DefaultGwtServiceInterfaceGenerator
@@ -33,13 +34,16 @@ requests.
 
     def srcDir = "src/main/java"
 
+    List<ArtefactHandler> artefacts = [ActionHandlerArtefactHandler]
+    def watchedResources = "file:./grails-app/actionHandlers/**/*ActionHandler.groovy"
+
     Closure doWithSpring() {
         { ->
             // Create Spring beans for all the actions defined by the user.
             final c = configureActionHandler.clone()
             c.delegate = delegate
 
-            application.actionHandlerClasses.each { handlerClass ->
+            grailsApplication.getArtefacts(ActionHandlerArtefactHandler.TYPE).each { handlerClass ->
                 log.info "Registering action handler: ${handlerClass.fullName}"
                 c.call(handlerClass)
             }
@@ -47,7 +51,7 @@ requests.
             // Bean for generating RPC interfaces for services.
             gwtInterfaceGenerator(DefaultGwtServiceInterfaceGenerator)
 
-            if (application.config.gwt.nocache.filter.enabled) {
+            if (grailsApplication.getConfig().getProperty('gwt.nocache.filter.enabled', Boolean)) {
                 gwtCacheControlFilter(GwtCacheControlFilter)
             }
         }
@@ -79,7 +83,7 @@ requests.
 
             if (interfaceGenerator.isGwtExposed(serviceWrapper.clazz)) {
                 //TODO Have to be checked!!!!
-        //        WebMetaUtils.registerCommonWebProperties(serviceWrapper.clazz.metaClass, application)
+                //        WebMetaUtils.registerCommonWebProperties(serviceWrapper.clazz.metaClass, application)
             }
         } else if (application.isActionHandlerClass(event.source)) {
             // Update the artifact. Without this step, the reloading
