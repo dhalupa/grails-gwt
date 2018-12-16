@@ -2,6 +2,7 @@ package org.codehaus.groovy.grails.plugins.gwt
 
 import grails.plugins.gwt.shared.Action
 import grails.plugins.gwt.shared.Response
+import grails.transaction.Transactional
 import grails.util.GrailsNameUtils
 import org.springframework.context.ApplicationContext
 import org.springframework.context.ApplicationContextAware
@@ -13,8 +14,9 @@ import org.springframework.context.ApplicationContextAware
  * handler should have the same name as the corresponding action, just
  * with a "Handler" suffix.
  */
+@Transactional
 class GwtActionService implements grails.plugins.gwt.client.GwtActionService, ApplicationContextAware {
-    static expose = [ "gwt" ]
+    static expose = ["gwt"]
 
     ApplicationContext applicationContext
 
@@ -29,8 +31,7 @@ class GwtActionService implements grails.plugins.gwt.client.GwtActionService, Ap
         if (applicationContext.containsBean(handlerBeanName)) {
             def actionBean = applicationContext.getBean(handlerBeanName)
             return actionBean.execute(action)
-        }
-        else {
+        } else {
             throw new RuntimeException("No action handler configured for ${name}")
         }
     }
