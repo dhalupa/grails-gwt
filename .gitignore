@@ -19,3 +19,4 @@ plugin.xml
 target-eclipse
 /out/
 /build/
+/.gradle/

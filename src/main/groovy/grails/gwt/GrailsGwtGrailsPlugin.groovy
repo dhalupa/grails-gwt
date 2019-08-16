@@ -1,10 +1,13 @@
 package grails.gwt
 
 import grails.core.ArtefactHandler
+import grails.core.GrailsApplication
 import grails.plugins.*
 import org.codehaus.groovy.grails.plugins.gwt.ActionHandlerArtefactHandler
 import org.codehaus.groovy.grails.plugins.gwt.DefaultGwtServiceInterfaceGenerator
 import org.codehaus.groovy.grails.plugins.gwt.GwtCacheControlFilter
+import org.grails.core.artefact.ServiceArtefactHandler
+import org.grails.core.legacy.LegacyGrailsApplication
 
 class GrailsGwtGrailsPlugin extends Plugin {
 
@@ -76,16 +79,16 @@ requests.
         // TODO Implement code that is executed when any artefact that this plugin is
         // watching is modified and reloaded. The event contains: event.source,
         // event.application, event.manager, event.ctx, and event.plugin.
-        def application = event.application
-        if (application.isServiceClass(event.source)) {
-            def interfaceGenerator = event.ctx.getBean("gwtInterfaceGenerator")
-            def serviceWrapper = application.getServiceClass(event.source?.name)
-
-            if (interfaceGenerator.isGwtExposed(serviceWrapper.clazz)) {
-                //TODO Have to be checked!!!!
-                //        WebMetaUtils.registerCommonWebProperties(serviceWrapper.clazz.metaClass, application)
-            }
-        } else if (application.isActionHandlerClass(event.source)) {
+        LegacyGrailsApplication application = event.application
+        if (application.isArtefactOfType(ServiceArtefactHandler.TYPE, event.source)) {
+//            def interfaceGenerator = event.ctx.getBean("gwtInterfaceGenerator")
+//            def serviceWrapper = application.getServiceClass(event.source?.name)
+//
+//            if (interfaceGenerator.isGwtExposed(serviceWrapper.clazz)) {
+//                //TODO Have to be checked!!!!
+//                //        WebMetaUtils.registerCommonWebProperties(serviceWrapper.clazz.metaClass, application)
+//            }
+        } else if (application.isArtefactOfType(ActionHandlerArtefactHandler.TYPE, event.source)) {
             // Update the artifact. Without this step, the reloading
             // won't work.
             def grailsClass = application.addArtefact(ActionHandlerArtefactHandler.TYPE, event.source)
